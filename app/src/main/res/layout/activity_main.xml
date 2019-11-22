@@ -1,3 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--  Todo add recycler view -->
+
+<androidx.appcompat.app.AlertController.RecycleListView
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:id="@+id/recycleView"
+    xmlns:android="http://schemas.android.com/apk/res/android" />
+
 <!--  Todo add another xml file that will hold single_player_view -->
