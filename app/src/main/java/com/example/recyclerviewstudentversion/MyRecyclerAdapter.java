@@ -43,7 +43,7 @@ List<Player> listofPlayers;
 
 
 public static class MyViewHolder extends RecyclerView.ViewHolder    {
-   
+
       public TextView name;
       public TextView age;
       public TextView sport;
