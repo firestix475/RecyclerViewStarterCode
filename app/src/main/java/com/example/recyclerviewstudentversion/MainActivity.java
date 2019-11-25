@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         getPlayers();
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        mAdapter = new MyRecyclerAdapter();
+        mAdapter = new MyRecyclerAdapter(list);
         recyclerView.setAdapter(mAdapter);
     }
     //Todo create method that will fill list of players
