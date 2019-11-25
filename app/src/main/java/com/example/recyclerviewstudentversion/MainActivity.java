@@ -1,6 +1,7 @@
 package com.example.recyclerviewstudentversion;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
@@ -19,9 +20,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         recyclerView = findViewById(R.id.recycleView);
+        recyclerView.setHasFixedSize(true);
         getPlayers();
-        MyRecyclerAdapter myAdapter = new MyRecyclerAdapter();
-        recyclerView.setAdapter(myAdapter);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        mAdapter = new MyRecyclerAdapter();
+        recyclerView.setAdapter(mAdapter);
     }
     //Todo create method that will fill list of players
 
