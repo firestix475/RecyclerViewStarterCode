@@ -3,9 +3,7 @@ package com.example.recyclerviewstudentversion;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
-
 import java.util.List;
 // Todo create a player class that will hold info about the player
 public class MainActivity extends AppCompatActivity {
