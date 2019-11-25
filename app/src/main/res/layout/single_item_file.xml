@@ -1,6 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="130dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="130dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="130dp"
+            android:layout_height="250dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:text="Name"
+            android:textSize="30dp"
+            app:fontFamily="@font/allerta">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/age"
+            android:layout_width="match_parent"
+            android:layout_height="26dp"
+            android:text="Age"
+            android:textSize="19dp"
+            app:fontFamily="sans-serif-condensed">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/worth"
+            android:layout_width="match_parent"
+            android:layout_height="26dp"
+            android:text="Worth"
+            android:textSize="19dp"
+            app:fontFamily="sans-serif-condensed">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/sport"
+            android:layout_width="match_parent"
+            android:layout_height="26dp"
+            android:text="Skill"
+            android:textSize="19dp"
+            app:fontFamily="sans-serif-condensed">
+
+        </TextView>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
+
