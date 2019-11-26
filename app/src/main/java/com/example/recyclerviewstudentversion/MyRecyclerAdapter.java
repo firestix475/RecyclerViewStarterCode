@@ -1,7 +1,5 @@
 package com.example.recyclerviewstudentversion;
 
-
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,12 +41,11 @@ List<Player> listofPlayers;
 
 
 public static class MyViewHolder extends RecyclerView.ViewHolder    {
-
-      public TextView name;
-      public TextView age;
-      public TextView sport;
-      public TextView worth;
-      public ImageView imageView;
+    public TextView name;
+    public TextView age;
+    public TextView sport;
+    public TextView worth;
+    public ImageView imageView;
     private MyViewHolder(@NonNull View view) {
         super(view);name = view.findViewById(R.id.name);
         age = view.findViewById(R.id.age);worth = view.findViewById(R.id.worth);
