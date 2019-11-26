@@ -31,7 +31,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.My
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
         holder.age.setText("Age: " + listofPlayers.get(position).getAge());
-        holder.name.setText("Name: " + listofPlayers.get(position).getName());
+        holder.name.setText(listofPlayers.get(position).getName());
         holder.worth.setText("Worth: " + listofPlayers.get(position).getWorth() + " mil");
         holder.sport.setText("Sport: " + listofPlayers.get(position).getMainSport());
         holder.imageView.setImageResource(listofPlayers.get(position).getImageResource());
@@ -63,4 +63,5 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.My
             sport = view.findViewById(R.id.sport);
             imageView = view.findViewById(R.id.imageView);
         }
+    }
 }
