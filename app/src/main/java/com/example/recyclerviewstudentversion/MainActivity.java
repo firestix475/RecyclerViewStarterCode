@@ -19,8 +19,6 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     List<Player> list;
-    
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
