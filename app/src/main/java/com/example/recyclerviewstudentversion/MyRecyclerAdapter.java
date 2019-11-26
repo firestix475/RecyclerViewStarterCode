@@ -34,6 +34,17 @@ List<Player> listofPlayers;
         holder.name.setText("Name: "+listofPlayers.get(position).getName());
         holder.worth.setText("Worth: " + listofPlayers.get(position).getWorth()+" mil");
         holder.sport.setText("Sport: " + listofPlayers.get(position).getMainSport());
+<<<<<<< Updated upstream
+=======
+        holder.imageView.setImageResource(listofPlayers.get(position).getImageResource());
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                view.getContext().startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(listofPlayers.get(position).getWebpage())));
+            }
+        });
+
+>>>>>>> Stashed changes
     }
 
     @Override
