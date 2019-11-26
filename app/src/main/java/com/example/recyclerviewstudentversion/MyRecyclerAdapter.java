@@ -62,7 +62,5 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.My
             worth = view.findViewById(R.id.worth);
             sport = view.findViewById(R.id.sport);
             imageView = view.findViewById(R.id.imageView);
-
         }
-    }
 }

@@ -1,14 +1,19 @@
 package com.example.recyclerviewstudentversion;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import androidx.recyclerview.widget.RecyclerView;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,14 +29,38 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        layoutManager = new GridLayoutManager(this, 2);
         recyclerView = findViewById(R.id.recycleView);
         recyclerView.setHasFixedSize(true);
         getPlayers();
+        layoutManager = new GridLayoutManager(this,2);
         recyclerView.setLayoutManager(layoutManager);
         mAdapter = new MyRecyclerAdapter(list);
         recyclerView.setAdapter(mAdapter);
     }
+    //Todo create method that will fill list of players
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menufi,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.two:
+                layoutManager = new GridLayoutManager(this, 2);
+                recyclerView.setLayoutManager(layoutManager);
+                return true;
+            case R.id.three:
+                layoutManager = new GridLayoutManager(this, 3);
+                recyclerView.setLayoutManager(layoutManager);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     //Todo create method that will fill list of players
 
     public void getPlayers(){
@@ -55,5 +84,4 @@ public class MainActivity extends AppCompatActivity {
             list.add(new Player(name[x], age[x], worth[x], "Basketball", imageResource[x], url[x]));
         }
     }
-
 }
