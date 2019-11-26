@@ -48,8 +48,6 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.My
         return listofPlayers.size();
     }
 
-
-
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         public TextView name;
@@ -68,5 +66,18 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.My
             imageView = view.findViewById(R.id.imageView);
 
         }
-    }
+
+public static class MyViewHolder extends RecyclerView.ViewHolder    {
+
+	public TextView name;
+	public TextView age;
+	public TextView sport;
+	public TextView worth;
+	public ImageView imageView;
+	private MyViewHolder(@NonNull View view) {
+		super(view);name = view.findViewById(R.id.name);
+		age = view.findViewById(R.id.age);worth = view.findViewById(R.id.worth);
+		sport = view.findViewById(R.id.sport);
+		imageView = view.findViewById(R.id.imageView);
+	}
 }
