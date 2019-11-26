@@ -1,5 +1,7 @@
 package com.example.recyclerviewstudentversion;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,8 +34,6 @@ List<Player> listofPlayers;
         holder.name.setText("Name: "+listofPlayers.get(position).getName());
         holder.worth.setText("Worth: " + listofPlayers.get(position).getWorth()+" mil");
         holder.sport.setText("Sport: " + listofPlayers.get(position).getMainSport());
-<<<<<<< Updated upstream
-=======
         holder.imageView.setImageResource(listofPlayers.get(position).getImageResource());
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,7 +42,6 @@ List<Player> listofPlayers;
             }
         });
 
->>>>>>> Stashed changes
     }
 
     @Override
