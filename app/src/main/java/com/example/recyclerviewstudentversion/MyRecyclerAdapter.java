@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
@@ -35,6 +34,8 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.My
         holder.name.setText("Name: "+listofPlayers.get(position).getName());
         holder.worth.setText("Worth: " + listofPlayers.get(position).getWorth() + " mil");
         holder.sport.setText("Sport: " + listofPlayers.get(position).getMainSport());
+        holder.imageView.setImageResource(listofPlayers.get(position).getImageResource());
+        view.getContext().startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(listofPlayers.get(position).getWebpage())));
     }
 
     @Override
@@ -60,6 +61,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.My
             worth = view.findViewById(R.id.worth);
             sport = view.findViewById(R.id.sport);
             imageView = view.findViewById(R.id.imageView);
+
         }
     }
 }
