@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
+
+import java.util.ArrayList;
 import java.util.List;
 // Todo create a player class that will hold info about the player
 public class MainActivity extends AppCompatActivity {
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     //Todo create method that will fill list of players
 
     public void getPlayers(){
+        list = new ArrayList<Player>();
         String[] name = new String[] {"Tristan Thompson", "James Harden","Kyrie Irving","Stephen Curry","Russell Westbrook",
                 "Derrick Rose","Kevin Durant","Dwyane Wade","Kobe Bryant","LeBron James",
                 "Magic Johnson","Miro Jurisic","Kareem Abdul-Jabbar","Shaquille O'Neal","Chris Paul"};
