@@ -7,16 +7,10 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.ItemTouchHelper.Callback;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
-import android.view.View;
-import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-
 import java.util.ArrayList;
 import java.util.List;
 // Todo create a player class that will hold info about the player
@@ -34,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycleView);
         recyclerView.setHasFixedSize(true);
         getPlayers();
-        layoutManager = new GridLayoutManager(this,2);
+        layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         mAdapter = new MyRecyclerAdapter(list);
         recyclerView.setAdapter(mAdapter);
@@ -72,6 +66,11 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.three:
                 layoutManager = new GridLayoutManager(this, 3);
+                recyclerView.setLayoutManager(layoutManager);
+                return true;
+
+            case R.id.lines:
+                layoutManager = new LinearLayoutManager((this));
                 recyclerView.setLayoutManager(layoutManager);
                 return true;
         }
