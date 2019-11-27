@@ -9,10 +9,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.Collections;
 import java.util.List;
 
-public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.MyViewHolder> {
+public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.MyViewHolder>   {
     View view;
     List<Player> listofPlayers;
 
@@ -64,4 +67,38 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.My
             imageView = view.findViewById(R.id.imageView);
         }
     }
+    ItemTouchHelper asdf = new ItemTouchHelper(new ItemTouchHelper.Callback() {
+        @Override
+        public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+            int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+            int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
+            return makeMovementFlags(dragFlags, swipeFlags);
+        }
+
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+            int orgpos = viewHolder.getAdapterPosition();
+            int targetpos = target.getAdapterPosition();
+            if (orgpos < targetpos) {
+                for (int i = orgpos; i < targetpos; i++) {
+                    Collections.swap(listofPlayers,i,i+1);
+
+                }
+            } else {
+                for (int i = orgpos; i > targetpos; i--) {
+                    Collections.swap(listofPlayers, i, i - 1);
+                }
+            }
+            notifyItemMoved(orgpos,targetpos);
+            return false;
+        }
+
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+            listofPlayers.remove(viewHolder.getAdapterPosition());
+            notifyItemRemoved(viewHolder.getAdapterPosition());
+        }
+    });
+
+
 }

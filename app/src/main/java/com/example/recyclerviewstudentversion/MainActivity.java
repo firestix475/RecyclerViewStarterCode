@@ -3,6 +3,7 @@ package com.example.recyclerviewstudentversion;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
     //Todo create method that will fill list of players
 
+
     public void getPlayers(){
         list = new ArrayList<Player>();
         String[] name = new String[] {"Tristan Thompson", "James Harden","Kyrie Irving","Stephen Curry","Russell Westbrook",
@@ -83,4 +85,6 @@ public class MainActivity extends AppCompatActivity {
             list.add(new Player(name[x], age[x], worth[x], "Basketball", imageResource[x], url[x]));
         }
     }
+
+
 }
