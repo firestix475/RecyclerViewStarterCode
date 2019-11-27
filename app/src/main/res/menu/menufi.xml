@@ -4,4 +4,7 @@
     android:title="2 columns"/>
 <item android:id="@+id/three"
     android:title="3 columns" />
+
+    <item android:id="@+id/lines"
+        android:title="Restore Default" />
 </menu>
