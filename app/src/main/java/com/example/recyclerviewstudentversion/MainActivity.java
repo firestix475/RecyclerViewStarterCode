@@ -11,9 +11,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 // Todo create a player class that will hold info about the player
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
     // Todo initialize these variables
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -31,6 +32,41 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         mAdapter = new MyRecyclerAdapter(list);
         recyclerView.setAdapter(mAdapter);
+        ItemTouchHelper asdf = new ItemTouchHelper(new ItemTouchHelper.Callback() {
+            @Override
+            public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+                int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+                int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
+                return makeMovementFlags(dragFlags, swipeFlags);
+            }
+
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                int orgpos = viewHolder.getAdapterPosition();
+                int targetpos = target.getAdapterPosition();
+                if (orgpos < targetpos) {
+                    for (int i = orgpos; i < targetpos; i++) {
+                        Collections.swap(list,i,i+1);
+
+                    }
+                } else {
+                    for (int i = orgpos; i > targetpos; i--) {
+                        Collections.swap(list, i, i - 1);
+                    }
+                }
+                mAdapter.notifyItemMoved(orgpos,targetpos);
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                list.remove(viewHolder.getAdapterPosition());
+                mAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+
+            }
+        });
+        asdf.attachToRecyclerView(recyclerView);
+
     }
     //Todo create method that will fill list of players
 
@@ -85,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
             list.add(new Player(name[x], age[x], worth[x], "Basketball", imageResource[x], url[x]));
         }
     }
+
 
 
 }
