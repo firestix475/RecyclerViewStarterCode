@@ -17,7 +17,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     // Todo initialize these variables
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private MyRecyclerAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     List<Player> list;
 
@@ -28,25 +28,28 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycleView);
         recyclerView.setHasFixedSize(true);
         getPlayers();
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        mAdapter = new MyRecyclerAdapter(list);
-        recyclerView.setAdapter(mAdapter);
         ItemTouchHelper.Callback itemTouchHelperCallback;
         ItemTouchHelper mIth = new ItemTouchHelper(
         new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                final int froPos = viewHolder.getAdapterPosition();
+                final int fromPos = viewHolder.getAdapterPosition();
                 final int toPos = target.getAdapterPosition();
-                return true;
+                return mAdapter.swap(fromPos, toPos);
             }
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-
+                if (direction == ItemTouchHelper.LEFT | direction == ItemTouchHelper.RIGHT) {
+                    mAdapter.remove(viewHolder.getAdapterPosition());
+                }
             }
         });
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        mAdapter = new MyRecyclerAdapter(list);
+        mIth.attachToRecyclerView(recyclerView);
+        recyclerView.setAdapter(mAdapter);
     }
     //Todo create method that will fill list of players
 

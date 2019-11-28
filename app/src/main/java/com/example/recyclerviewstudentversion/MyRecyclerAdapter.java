@@ -13,11 +13,31 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.MyViewHolder> {
+
     View view;
-    List<Player> listofPlayers;
+    protected static List<Player> listofPlayers;
+    private Player lastRemoved = null;
 
     public MyRecyclerAdapter(@NonNull List<Player> obj) {
         listofPlayers = obj;
+    }
+
+    public void remove(int position) {
+        lastRemoved = listofPlayers.get(position);
+        listofPlayers.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public Player getLastRemoved() {
+        return lastRemoved;
+    }
+
+    public boolean swap(int viewHolder, int target) {
+        Player temp = listofPlayers.get(viewHolder);
+        listofPlayers.set(viewHolder, listofPlayers.get(target));
+        listofPlayers.set(target, temp);
+        notifyItemMoved(viewHolder, target);
+        return true;
     }
 
     @NonNull
