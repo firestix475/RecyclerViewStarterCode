@@ -6,5 +6,9 @@
     android:title="3 columns" />
 
     <item android:id="@+id/lines"
-        android:title="Restore Default" />
+        android:title="Restore Default Layout" />
+
+    <item android:id="@+id/restorep"
+        android:title="Restore Players" />
+
 </menu>

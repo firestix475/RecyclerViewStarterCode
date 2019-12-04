@@ -10,6 +10,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -23,6 +27,7 @@ public class MainActivity extends AppCompatActivity  {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         recyclerView = findViewById(R.id.recycleView);
@@ -47,7 +52,6 @@ public class MainActivity extends AppCompatActivity  {
                 if (orgpos < targetpos) {
                     for (int i = orgpos; i < targetpos; i++) {
                         Collections.swap(list,i,i+1);
-
                     }
                 } else {
                     for (int i = orgpos; i > targetpos; i--) {
@@ -60,8 +64,24 @@ public class MainActivity extends AppCompatActivity  {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                list.remove(viewHolder.getAdapterPosition());
-                mAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+
+
+                final int position = viewHolder.getAdapterPosition();
+                final Player deleted = list.get(position);
+                switch (direction){
+                    case ItemTouchHelper.LEFT:
+                        list.remove(viewHolder.getAdapterPosition());
+                        mAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+                        Snackbar. make (recyclerView, "R you deleting this profile?", Snackbar. LENGTH_SHORT ).
+                                setAction("Undo", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        list.add(position,deleted);
+                                        mAdapter.notifyItemInserted(position);
+                                    }
+                                }).show();
+                }
+
 
             }
         });
@@ -120,6 +140,7 @@ public class MainActivity extends AppCompatActivity  {
         for(int x = 0; x < 15 ; x++){
             list.add(new Player(name[x], age[x], worth[x], "Basketball", imageResource[x], url[x]));
         }
+
     }
 
 
