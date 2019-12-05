@@ -11,6 +11,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.SearchView;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity  {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         mAdapter = new MyRecyclerAdapter(list);
+
         recyclerView.setAdapter(mAdapter);
         ItemTouchHelper asdf = new ItemTouchHelper(new ItemTouchHelper.Callback() {
             @Override
@@ -64,25 +67,8 @@ public class MainActivity extends AppCompatActivity  {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-
-
-                final int position = viewHolder.getAdapterPosition();
-                final Player deleted = list.get(position);
-                switch (direction){
-                    case ItemTouchHelper.LEFT:
-                        list.remove(viewHolder.getAdapterPosition());
-                        mAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
-                        Snackbar. make (recyclerView, "R you deleting this profile?", Snackbar. LENGTH_SHORT ).
-                                setAction("Undo", new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        list.add(position,deleted);
-                                        mAdapter.notifyItemInserted(position);
-                                    }
-                                }).show();
-                }
-
-
+                list.remove(viewHolder.getAdapterPosition());
+                mAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
             }
         });
         asdf.attachToRecyclerView(recyclerView);
@@ -90,14 +76,8 @@ public class MainActivity extends AppCompatActivity  {
     }
     //Todo create method that will fill list of players
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menufi,menu);
-        return true;
-    }
 
-    @Override
+    /*@Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.two:
@@ -116,6 +96,8 @@ public class MainActivity extends AppCompatActivity  {
         }
         return super.onOptionsItemSelected(item);
     }
+    */
+
 
     //Todo create method that will fill list of players
 
@@ -142,6 +124,30 @@ public class MainActivity extends AppCompatActivity  {
         }
 
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+      //  MenuInflater inflater = getMenuInflater();
+       // inflater.inflate(R.menu.menufi,menu);
+        MenuInflater searchinflater = getMenuInflater();
+        searchinflater.inflate(R.menu.searchmenu,menu);
+        MenuItem searchItem = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                ((MyRecyclerAdapter) mAdapter).getFilter().filter(newText);
+                return false;
+            }
+        });
+        return true;
+    }
+
 
 
 

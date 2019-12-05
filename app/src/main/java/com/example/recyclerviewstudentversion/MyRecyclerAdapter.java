@@ -6,20 +6,28 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
 import java.util.List;
 
-public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.MyViewHolder>   {
+public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.MyViewHolder> implements Filterable {
     View view;
     List<Player> listofPlayers;
+    List<Player>  copyforFilter;
+
 
     public MyRecyclerAdapter(@NonNull List<Player> obj) {
         listofPlayers = obj;
-    }
+        copyforFilter = new ArrayList<Player>(listofPlayers);
 
+    }
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -41,6 +49,45 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.My
                 view.getContext().startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(listofPlayers.get(position).getWebpage())));
             }
         });
+    }
+    Filter  filterEXP = new Filter() {
+        @Override
+        protected Filter.FilterResults performFiltering(CharSequence constraint) {
+            List<Player> filterlist = new ArrayList<>();
+            if(constraint==null||constraint.length()==0){
+                filterlist.addAll(copyforFilter);
+            }
+            else {
+                String simplifiedTarget = constraint.toString().toLowerCase().trim();
+                for (Player p : listofPlayers) {
+                    String n = p.getName().toLowerCase();
+                    String w = p.getWorth()+"";
+                    String m = p.getMainSport().toLowerCase();
+                    String a = p.getAge()+"";
+                    if((n.contains(simplifiedTarget))||(w.contains(simplifiedTarget))||(m.contains(simplifiedTarget))||(a.contains(simplifiedTarget))){
+                        filterlist.add(p);
+                    }
+                }
+            }
+            Filter.FilterResults fr = new Filter.FilterResults();
+            fr.values = filterlist;
+            return  fr;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, Filter.FilterResults results) {
+            listofPlayers.clear();
+            listofPlayers.addAll((List)results.values);
+                for(int i = 0;i<listofPlayers.size();i++){
+                   
+                }
+            notifyDataSetChanged();
+        }
+    };
+
+    @Override
+    public Filter getFilter() {
+        return filterEXP;
     }
 
     @Override
@@ -64,6 +111,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.My
             imageView = view.findViewById(R.id.imageView);
         }
     }
+
 
 
 
