@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity  {
             @Override
             public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-                MenuView.ItemView itemView = viewHolder.itemView;
+                //https://www.youtube.com/watch?v=eEonjkmox-0
             }
         });
         asdf.attachToRecyclerView(recyclerView);
