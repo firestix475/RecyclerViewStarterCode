@@ -2,7 +2,12 @@ package com.example.recyclerviewstudentversion;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.BackgroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +22,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import static androidx.constraintlayout.widget.Constraints.TAG;
+
 public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.MyViewHolder> implements Filterable {
     View view;
+    MyViewHolder holder;
     List<Player> listofPlayers;
     List<Player>  copyforFilter;
 
@@ -33,7 +41,8 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.My
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(R.layout.single_item_file, parent, false);
-        return new MyViewHolder(view);
+        holder = new MyViewHolder(view);
+        return holder;
     }
 
     @Override
@@ -62,9 +71,8 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.My
                 for (Player p : listofPlayers) {
                     String n = p.getName().toLowerCase();
                     String w = p.getWorth()+"";
-                    String m = p.getMainSport().toLowerCase();
                     String a = p.getAge()+"";
-                    if((n.contains(simplifiedTarget))||(w.contains(simplifiedTarget))||(m.contains(simplifiedTarget))||(a.contains(simplifiedTarget))){
+                    if((n.contains(simplifiedTarget))||(w.contains(simplifiedTarget))||(a.contains(simplifiedTarget))){
                         filterlist.add(p);
                     }
                 }
@@ -78,9 +86,31 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.My
         protected void publishResults(CharSequence constraint, Filter.FilterResults results) {
             listofPlayers.clear();
             listofPlayers.addAll((List)results.values);
-                for(int i = 0;i<listofPlayers.size();i++){
-                   
+        /*    String input = constraint.toString().toLowerCase().trim();
+            int position = 0;
+            for (Player p : listofPlayers) {
+                String n = p.getName().toLowerCase().trim();
+                String w = p.getWorth()+"";
+                String a = p.getAge()+"";
+
+                if(n.contains(constraint)){
+                    String text = n;
+                    SpannableString ss = new SpannableString(text);
+                    try{
+                        int startindex = n.indexOf(input);
+                        int lastindex = startindex + input.length();
+                        BackgroundColorSpan bgYello = new BackgroundColorSpan(Color.YELLOW);
+                        ss.setSpan(bgYello,startindex,lastindex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                    }
+                    catch (IndexOutOfBoundsException ex){
+                        Log.e(TAG, "publishResults: index out of bound ", ex);
+                    }
                 }
+                position++;
+            }
+            */
+
             notifyDataSetChanged();
         }
     };
