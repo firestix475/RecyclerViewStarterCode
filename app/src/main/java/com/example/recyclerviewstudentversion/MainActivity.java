@@ -2,17 +2,23 @@ package com.example.recyclerviewstudentversion;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.graphics.Canvas;
+import android.nfc.Tag;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -21,6 +27,7 @@ import java.util.Collections;
 import java.util.List;
 // Todo create a player class that will hold info about the player
 public class MainActivity extends AppCompatActivity  {
+    private static final String TAG = "";
     // Todo initialize these variables
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -40,7 +47,7 @@ public class MainActivity extends AppCompatActivity  {
         mAdapter = new MyRecyclerAdapter(list);
 
         recyclerView.setAdapter(mAdapter);
-        ItemTouchHelper asdf = new ItemTouchHelper(new ItemTouchHelper.Callback() {
+        ItemTouchHelper asdf = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP|ItemTouchHelper.DOWN, ItemTouchHelper.RIGHT|ItemTouchHelper.LEFT) {
             @Override
             public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
                 int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
@@ -65,10 +72,31 @@ public class MainActivity extends AppCompatActivity  {
                 return false;
             }
 
+            public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int direction) {
+                Log.e(TAG, ""+direction);
+
+                    final int position = viewHolder.getAdapterPosition();
+                    final Player deleted = list.get(position);
+                    list.remove(position);
+                    mAdapter.notifyItemRemoved(position);
+                    Snackbar.make(recyclerView, "R you deleting this profile?", Snackbar.LENGTH_SHORT).
+                            setAction("Undo", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    list.add(position, deleted);
+                                    mAdapter.notifyItemInserted(viewHolder.getAdapterPosition());
+                                    mAdapter.notifyDataSetChanged();
+                                }
+                            }).show();
+
+
+
+            }
+
             @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                list.remove(viewHolder.getAdapterPosition());
-                mAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+            public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+                MenuView.ItemView itemView = viewHolder.itemView;
             }
         });
         asdf.attachToRecyclerView(recyclerView);
