@@ -3,12 +3,16 @@ package com.example.recyclerviewstudentversion;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,6 +36,10 @@ public class MainActivity extends AppCompatActivity  {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
+    private Drawable deleteIcon;
+    private Drawable checkIcon;
+    private ColorDrawable colorDrawableBackground;
+    private ColorDrawable colorDrawableBackground2;
     List<Player> list;
 
     @Override
@@ -45,7 +53,10 @@ public class MainActivity extends AppCompatActivity  {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         mAdapter = new MyRecyclerAdapter(list);
-
+        deleteIcon = ContextCompat.getDrawable(this,R.drawable.ic_delete);
+        checkIcon = ContextCompat.getDrawable(this,R.drawable.ic_done);
+        colorDrawableBackground2 = new ColorDrawable(Color.parseColor("#00ff22"));
+        colorDrawableBackground = new ColorDrawable(Color.parseColor("#ff0000"));
         recyclerView.setAdapter(mAdapter);
         ItemTouchHelper asdf = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP|ItemTouchHelper.DOWN, ItemTouchHelper.RIGHT|ItemTouchHelper.LEFT) {
             @Override
@@ -88,15 +99,36 @@ public class MainActivity extends AppCompatActivity  {
                                     mAdapter.notifyDataSetChanged();
                                 }
                             }).show();
-
-
-
             }
 
             @Override
             public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-                //https://www.youtube.com/watch?v=eEonjkmox-0
+                View itemView = viewHolder.itemView;
+                int iconMarginVertical = (itemView.getHeight()-deleteIcon.getIntrinsicHeight())/2;
+
+                if(dX>0){
+                    colorDrawableBackground.setBounds(itemView.getLeft(),itemView.getTop(),(int) dX,itemView.getBottom());
+                    deleteIcon.setBounds(itemView.getLeft()+iconMarginVertical,itemView.getTop()+iconMarginVertical,itemView.getLeft()+iconMarginVertical+deleteIcon.getIntrinsicWidth(),itemView.getBottom()-iconMarginVertical);
+                }
+                else if(dX<0) {
+                    colorDrawableBackground2.setBounds(itemView.getRight() + (int) dX, itemView.getTop(), itemView.getRight(), itemView.getBottom());
+                    checkIcon.setBounds(itemView.getRight() - iconMarginVertical - checkIcon.getIntrinsicWidth(), itemView.getTop() + iconMarginVertical, itemView.getRight() - iconMarginVertical, itemView.getBottom() - iconMarginVertical);
+                    checkIcon.setLevel(0);
+                }
+               colorDrawableBackground2.draw(c);
+               colorDrawableBackground.draw(c);
+                c.save();
+                if(dX>0) {
+                    c.clipRect(itemView.getLeft(), itemView.getTop(), (int) dX, itemView.getBottom());
+                }
+                else{
+                    c.clipRect(itemView.getRight() + (int) dX, itemView.getTop(), itemView.getRight(), itemView.getBottom());
+                }
+                checkIcon.draw(c);
+                deleteIcon.draw(c);
+                c.restore();
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
             }
         });
         asdf.attachToRecyclerView(recyclerView);
