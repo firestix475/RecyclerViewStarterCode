@@ -6,20 +6,59 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
 import java.util.List;
 
-public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.MyViewHolder> {
+public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.MyViewHolder> implements Filterable {
 
     View view;
     protected static List<Player> listofPlayers;
+    protected static List<Player> fullListofPlayers;
     private Player lastRemoved = null;
+    protected Filter filter;
 
-    public MyRecyclerAdapter(@NonNull List<Player> obj) {
+    @Override
+    public Filter getFilter() {
+        filter = new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                List<Player> filteredList = new ArrayList<>();
+                if (charSequence == null || charSequence.length() == 0) {
+                    filteredList.addAll(fullListofPlayers);
+                } else {
+                    String filterPattern = charSequence.toString().toLowerCase().trim();
+                    for (Player player : fullListofPlayers) {
+                        if (player.getName().toLowerCase().contains(filterPattern)) {
+                            filteredList.add(player);
+                        }
+                    }
+                }
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = filteredList;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                listofPlayers.clear();
+                listofPlayers.addAll((ArrayList) filterResults.values);
+                notifyDataSetChanged();
+            }
+        };
+        return filter;
+    }
+
+
+    protected MyRecyclerAdapter(@NonNull List<Player> obj) {
         listofPlayers = obj;
+        fullListofPlayers = new ArrayList<>(listofPlayers);
     }
 
     public void remove(int position) {

@@ -4,15 +4,18 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.ItemTouchHelper.Callback;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import androidx.appcompat.widget.SearchView;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+
 // Todo create a player class that will hold info about the player
 public class MainActivity extends AppCompatActivity {
     // Todo initialize these variables
@@ -20,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private MyRecyclerAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     List<Player> list;
+    public Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         mAdapter = new MyRecyclerAdapter(list);
         mIth.attachToRecyclerView(recyclerView);
         recyclerView.setAdapter(mAdapter);
+
     }
     //Todo create method that will fill list of players
 
@@ -57,6 +62,22 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menufi,menu);
+
+        MenuItem searchItem = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
         return true;
     }
 
