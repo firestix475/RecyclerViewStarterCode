@@ -84,13 +84,13 @@ public class MainActivity extends AppCompatActivity  {
             }
 
             public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int direction) {
-                Log.e(TAG, ""+direction);
+
 
                     final int position = viewHolder.getAdapterPosition();
                     final Player deleted = list.get(position);
                     list.remove(position);
                     mAdapter.notifyItemRemoved(position);
-                    Snackbar.make(recyclerView, "R you deleting this profile?", Snackbar.LENGTH_SHORT).
+                    Snackbar.make(recyclerView, "R you deleting this profile?", Snackbar.LENGTH_LONG).
                             setAction("Undo", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -99,25 +99,28 @@ public class MainActivity extends AppCompatActivity  {
                                     mAdapter.notifyDataSetChanged();
                                 }
                             }).show();
+
             }
 
             @Override
             public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+                super.onChildDraw(c, recyclerView, viewHolder, dX/4, dY, actionState, isCurrentlyActive);
                 View itemView = viewHolder.itemView;
                 int iconMarginVertical = (itemView.getHeight()-deleteIcon.getIntrinsicHeight())/2;
 
                 if(dX>0){
                     colorDrawableBackground.setBounds(itemView.getLeft(),itemView.getTop(),(int) dX,itemView.getBottom());
                     deleteIcon.setBounds(itemView.getLeft()+iconMarginVertical,itemView.getTop()+iconMarginVertical,itemView.getLeft()+iconMarginVertical+deleteIcon.getIntrinsicWidth(),itemView.getBottom()-iconMarginVertical);
+                    colorDrawableBackground.draw(c);
                 }
-                else if(dX<0) {
+                if(dX<0) {
                     colorDrawableBackground2.setBounds(itemView.getRight() + (int) dX, itemView.getTop(), itemView.getRight(), itemView.getBottom());
                     checkIcon.setBounds(itemView.getRight() - iconMarginVertical - checkIcon.getIntrinsicWidth(), itemView.getTop() + iconMarginVertical, itemView.getRight() - iconMarginVertical, itemView.getBottom() - iconMarginVertical);
-                    checkIcon.setLevel(0);
+                    colorDrawableBackground2.draw(c);
                 }
-               colorDrawableBackground2.draw(c);
-               colorDrawableBackground.draw(c);
+
+
+
                 c.save();
                 if(dX>0) {
                     c.clipRect(itemView.getLeft(), itemView.getTop(), (int) dX, itemView.getBottom());
@@ -128,7 +131,8 @@ public class MainActivity extends AppCompatActivity  {
                 checkIcon.draw(c);
                 deleteIcon.draw(c);
                 c.restore();
-                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+
+
             }
         });
         asdf.attachToRecyclerView(recyclerView);
